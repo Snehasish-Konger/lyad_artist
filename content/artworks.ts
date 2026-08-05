@@ -28,7 +28,10 @@ import type { CategoryId } from "./categories";
  *   caption     1–3 sentences. Optional, but this is what makes a gallery
  *               feel like a person made it. Leave it out rather than pad it.
  *   featured    true = appears in Selected Works on the home page
- *   shopUrl     link to the Shopify product if this exact piece is for sale
+ *   shopUrl     any non-empty string = this exact piece is for sale. The
+ *               lightbox then shows "Order it", which opens an Instagram DM
+ *               to @lyad_artist with a ready-made message — not a Shopify
+ *               link, see components/order-on-instagram.tsx for why.
  *   commissionable  set false to hide the "available as a commission" line
  * ============================================================================
  */

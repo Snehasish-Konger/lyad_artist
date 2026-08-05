@@ -7,6 +7,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { image, type Artwork } from "@/content/artworks";
 import { categoryById } from "@/content/categories";
+import { OrderOnInstagram } from "@/components/order-on-instagram";
+import { buildOrderMessage } from "@/lib/order-message";
 
 /**
  * Full-screen detail view. Paper background rather than the usual black
@@ -151,14 +153,10 @@ export function Lightbox({
 
                 <div className="mt-9 flex flex-col items-start gap-4 border-t border-paper-edge pt-7">
                   {art.shopUrl ? (
-                    <a
-                      href={art.shopUrl}
-                      target="_blank"
-                      rel="noreferrer noopener"
+                    <OrderOnInstagram
+                      message={buildOrderMessage(art.title)}
                       className="ink-link font-sans text-[0.8125rem] uppercase tracking-[0.16em] text-ink"
-                    >
-                      Available in the shop ↗
-                    </a>
+                    />
                   ) : art.commissionable !== false ? (
                     <>
                       <p className="text-sm text-ink-muted">

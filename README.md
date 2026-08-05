@@ -4,8 +4,11 @@ Portfolio and commission site for **Snehasish Konger** (`@lyad_artist`).
 Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Framer Motion · Resend.
 
 It is a portfolio and a way to reach you. It deliberately has **no cart, no
-checkout and no product pages** — selling happens on the Shopify store at
-snehasishkonger.com, and commissions are a conversation that starts with a form.
+checkout and no product pages** — commissions are a conversation that starts
+with a form, and buying an existing piece happens by messaging
+[@lyad_artist](https://instagram.com/lyad_artist) on Instagram. The full
+Shopify store at snehasishkonger.com is still linked from the Shop page for
+browsing, but nothing on this site checks out through it.
 
 ---
 
@@ -116,13 +119,21 @@ Three steps, no code changes:
   medium: "Ink — Procreate",
   caption: "One sitting, no undo.",   // optional, but this is where the voice is
   featured: true,                      // shows in Selected Works on the home page
-  shopUrl: "https://snehasishkonger.com/products/mandala-iii",  // optional
+  shopUrl: "sold",  // any non-empty string — see below
 }
 ```
 
-- **`shopUrl` present** → the lightbox shows "Available in the shop".
+- **`shopUrl` present** (any non-empty string) → the lightbox shows **"Order it"**,
+  which copies a ready-made message and opens an Instagram DM to
+  `@lyad_artist` — not a link to Shopify. See
+  [`components/order-on-instagram.tsx`](components/order-on-instagram.tsx) for
+  why it works that way (Instagram has no public way to prefill DM text via a
+  link, so the honest version is copy-then-open).
 - **No `shopUrl`** → it shows "Available as a commission" and links into the
   commission form pre-filled with that category and piece.
+
+The Shop page's four category cards ("Order it") work the same way, with a
+message built from the collection name instead of a piece title.
 
 `heroSlug` and `portraitSlug` at the bottom of the same file control the home
 page hero and the About page photo.
@@ -139,7 +150,7 @@ inferred from looking at each picture. Specifically:
 | --- | --- |
 | `content/artworks.ts` | Every **title, year, medium and caption**. Category assignments are my best guess from looking at each piece — check them. |
 | `content/about.ts` | The whole bio, the process paragraphs and the facts table. Written in a plausible voice, but it's not your voice yet. |
-| `content/shop.ts` | Every Shopify **collection URL** is a guess (`/collections/prints` etc.). Replace with the real ones from your Shopify admin. Also the price/`note` labels. |
+| `content/shop.ts` | The four category cards' copy and `note` labels (e.g. "From ₹—"). They no longer link to Shopify — see the ordering note below. |
 | `content/site.ts` | Handle, email, shop URL and the one-line positioning statement. |
 
 **Photos in place.** `heroSlug` (home hero) points at `hero-photo`, and

@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
 import { Reveal, RevealGroup, RevealItem } from "@/components/reveal";
+import { OrderCard } from "@/components/order-on-instagram";
+import { buildOrderMessage } from "@/lib/order-message";
 import { shopSections } from "@/content/shop";
 import { image } from "@/content/artworks";
 import { site } from "@/content/site";
@@ -10,13 +12,13 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Shop",
   description:
-    "Prints and originals by Snehasish Konger, sold through snehasishkonger.com and shipped across India.",
+    "Prints and originals by Snehasish Konger — message @lyad_artist on Instagram to order, or browse the full store at snehasishkonger.com.",
   alternates: { canonical: "/shop" },
 };
 
 /**
- * A window onto the Shopify store, not a second storefront. Every link leaves
- * the site. Nothing here has a cart, a price field or a variant picker.
+ * A preview of what's available, not a second storefront. Nothing here has a
+ * cart or checkout — "Order it" copies a message and opens Instagram DM.
  */
 export default function ShopPage() {
   return (
@@ -24,7 +26,7 @@ export default function ShopPage() {
       <PageHeader
         kicker="Shop"
         title="Prints and originals, posted from Gurugram."
-        lede="Everything is sold through my Shopify store at snehasishkonger.com — this page is just a look at what's in it. Links open there."
+        lede="Message me on Instagram to order any of these directly, or browse the full store at snehasishkonger.com."
       />
 
       <div className="shell">
@@ -33,11 +35,9 @@ export default function ShopPage() {
             const img = image(section.image);
             return (
               <RevealItem key={section.title}>
-                <a
-                  href={section.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="group flex h-full flex-col bg-paper-raised/60 transition-colors duration-700 hover:bg-paper-deep/70"
+                <OrderCard
+                  message={buildOrderMessage(section.title)}
+                  className="group flex h-full w-full flex-col bg-paper-raised/60 transition-colors duration-700 hover:bg-paper-deep/70"
                 >
                   <div className="relative aspect-[16/11] overflow-hidden bg-paper-deep">
                     <Image
@@ -63,10 +63,10 @@ export default function ShopPage() {
                       <p className="mt-4 max-w-sm text-ink-muted">{section.blurb}</p>
                     </div>
                     <span className="font-sans text-[0.8125rem] uppercase tracking-[0.16em] text-ink transition-colors duration-500 group-hover:text-clay">
-                      View on the store ↗
+                      Order it ↗
                     </span>
                   </div>
-                </a>
+                </OrderCard>
               </RevealItem>
             );
           })}
