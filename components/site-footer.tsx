@@ -45,17 +45,7 @@ export function SiteFooter() {
                   rel="noreferrer noopener"
                   className="ink-link text-ink-soft hover:text-ink"
                 >
-                  Instagram — @{site.handle}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={site.shopUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="ink-link text-ink-soft hover:text-ink"
-                >
-                  Shop — snehasishkonger.com
+                  The studio's Instagram — @{site.handle}
                 </a>
               </li>
               <li>
@@ -72,7 +62,7 @@ export function SiteFooter() {
 
         <div className="mt-16 flex flex-col gap-3 border-t border-paper-edge pt-8 text-[0.75rem] uppercase tracking-[0.16em] text-ink-faint md:mt-24 md:flex-row md:items-center md:justify-between">
           <p>
-            © {new Date().getFullYear()} {site.name}
+            © {new Date().getFullYear()} {site.brand}
           </p>
           <p>
             {site.location} — {site.shipping}

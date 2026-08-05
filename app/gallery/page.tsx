@@ -5,13 +5,14 @@ import { PageHeader } from "@/components/page-header";
 import { InstagramFeed } from "@/components/instagram-feed";
 import { artworks } from "@/content/artworks";
 import { categories, type CategoryId } from "@/content/categories";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Gallery",
   description:
-    "Devotional portraits, anime and pop-culture fan art, pen-and-ink likenesses and home decor illustration by Snehasish Konger.",
-  alternates: { canonical: "/gallery" },
-};
+    "The complete body of work from S. Konger Arts: devotional portraits, anime and pop-culture fan art, pen-and-ink likenesses and home decor illustration by Snehasish Konger.",
+  path: "/gallery",
+});
 
 /** /gallery?c=devotional lands with that filter already applied. */
 export default async function GalleryPage({

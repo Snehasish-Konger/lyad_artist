@@ -3,10 +3,14 @@
  */
 
 export const site = {
+  /** The studio/site identity — nav wordmark, <title>, footer, metadata. */
+  brand: "S. Konger Arts",
+
+  /** The artist's full name — used in bio copy, author fields, alt text. */
   name: "Snehasish Konger",
+
   handle: "lyad_artist",
   instagramUrl: "https://instagram.com/lyad_artist",
-  shopUrl: "https://snehasishkonger.com",
   email: "studio@snehasishkonger.com",
   location: "Gurugram, India",
   shipping: "Ships anywhere in India",
@@ -15,8 +19,9 @@ export const site = {
   positioning:
     "Devotional portraits, pen-and-ink likenesses and fan art — drawn one commission at a time.",
 
-  /** Used for canonical URLs, sitemap and OG tags. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://studio.snehasishkonger.com",
+  /** Used for canonical URLs, sitemap and OG tags. This site is the primary
+   *  home — there is no separate storefront domain. */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://snehasishkonger.com",
 } as const;
 
 export const nav = [

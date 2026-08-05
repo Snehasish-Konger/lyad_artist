@@ -20,34 +20,39 @@ const workSans = Work_Sans({
   variable: "--font-work-sans",
 });
 
+const defaultTitle = `${site.brand} | Custom Portraits & Illustration by ${site.name}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Artist & Portrait Commissions`,
-    template: `%s — ${site.name}`,
+    default: defaultTitle,
+    template: `%s — ${site.brand}`,
   },
-  description: site.positioning,
+  description: `${site.brand} is the studio and practice of artist ${site.name}, based in ${site.location}. ${site.positioning}`,
   keywords: [
+    "S. Konger Arts",
     "portrait commission India",
     "devotional art",
     "pen and ink portrait",
     "anime fan art",
     "Procreate artist",
-    "lyad_artist",
+    "Snehasish Konger",
     "Gurugram artist",
   ],
-  authors: [{ name: site.name }],
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.brand,
   openGraph: {
     type: "website",
-    siteName: site.name,
-    title: `${site.name} — Artist & Portrait Commissions`,
+    siteName: site.brand,
+    title: defaultTitle,
     description: site.positioning,
     url: site.url,
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — Artist & Portrait Commissions`,
+    title: defaultTitle,
     description: site.positioning,
   },
   alternates: { canonical: "/" },

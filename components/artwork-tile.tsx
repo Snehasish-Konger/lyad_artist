@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { image, type Artwork } from "@/content/artworks";
+import { artworkAlt, image, type Artwork } from "@/content/artworks";
 import { categoryById } from "@/content/categories";
 import { cn } from "@/lib/utils";
 
@@ -36,7 +36,7 @@ export function ArtworkTile({
         <div className="relative" style={{ aspectRatio: `${img.width} / ${img.height}` }}>
           <Image
             src={img.src}
-            alt={artwork.title}
+            alt={artworkAlt(artwork)}
             fill
             sizes={sizes}
             placeholder="blur"

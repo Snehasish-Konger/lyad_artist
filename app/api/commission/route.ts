@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { sendCommission, type Attachment } from "@/lib/email";
+import { appendToSheet } from "@/lib/sheets";
+import { categoryById } from "@/content/categories";
 import {
   ACCEPTED_UPLOAD_TYPES,
   MAX_UPLOAD_BYTES,
@@ -38,6 +40,7 @@ export async function POST(request: Request) {
     occasion: value("occasion"),
     size: value("size"),
     referenceLink: value("referenceLink"),
+    instagramPostReference: value("instagramPostReference"),
     name: value("name"),
     email: value("email"),
     instagram: value("instagram"),
@@ -72,11 +75,50 @@ export async function POST(request: Request) {
     });
   }
 
-  const result = await sendCommission(parsed.data, attachments);
+  const data = parsed.data;
+  const categoryLabel =
+    data.type === "unsure"
+      ? "Not sure yet"
+      : (categoryById[data.type as keyof typeof categoryById]?.label ?? data.type);
 
-  if (!result.ok) {
+  // Email is a nice-to-have notification; the Sheet is the permanent record.
+  // Both run regardless of the other's outcome so neither failure hides data
+  // the other could have captured.
+  const [emailResult, sheetResult] = await Promise.all([
+    sendCommission(data, attachments),
+    appendToSheet({
+      Timestamp: new Date().toISOString(),
+      Type: "Commission Request",
+      Name: data.name,
+      Email: data.email,
+      "Instagram Handle": data.instagram ?? "",
+      Phone: data.phone ?? "",
+      Category: categoryLabel,
+      Description: data.description,
+      "Reference Image Link":
+        data.referenceLink || (attachments.length ? "See attachment in email" : ""),
+      Occasion: data.occasion ?? "",
+      "Preferred Size": data.size ?? "",
+      "Preferred Contact Method": data.contactPreference,
+      "Instagram Post Reference": data.instagramPostReference ?? "",
+      Status: "",
+    }),
+  ]);
+
+  if (!emailResult.ok) {
+    console.error("[commission] email send failed:", emailResult.reason);
+  }
+
+  // The Sheet is the source of truth — only its success unlocks the success
+  // screen. If it failed, the visitor needs to know so nothing gets lost,
+  // even if the email notification happened to get through.
+  if (!sheetResult.ok) {
+    console.error("[commission] sheet append failed:", sheetResult.reason);
     return NextResponse.json(
-      { error: "The message didn't go through. Please email studio@snehasishkonger.com directly." },
+      {
+        error:
+          "Something went wrong on our end and I can't be sure this was saved — please email studio@snehasishkonger.com directly so nothing gets lost.",
+      },
       { status: 502 },
     );
   }

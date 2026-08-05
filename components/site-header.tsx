@@ -45,10 +45,10 @@ export function SiteHeader() {
         <Link
           href="/"
           className="group flex flex-col leading-none"
-          aria-label={`${site.name} — home`}
+          aria-label={`${site.brand} — home`}
         >
           <span className="font-serif text-lg tracking-tight text-ink md:text-xl">
-            {site.name}
+            {site.brand}
           </span>
           <span className="mt-1 font-sans text-[0.625rem] uppercase tracking-[0.28em] text-ink-faint transition-colors duration-500 group-hover:text-clay">
             @{site.handle}
@@ -136,7 +136,7 @@ export function SiteHeader() {
                 transition={{ delay: 0.4, duration: 0.5 }}
                 className="mt-10 font-sans text-[0.75rem] uppercase tracking-[0.2em] text-ink-muted"
               >
-                Instagram — @{site.handle} ↗
+                The studio's Instagram — @{site.handle} ↗
               </motion.a>
             </nav>
           </motion.div>

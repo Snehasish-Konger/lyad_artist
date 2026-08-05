@@ -1,12 +1,29 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { HomeHero } from "@/components/home-hero";
 import { SelectedWorks } from "@/components/selected-works";
 import { InstagramFeed } from "@/components/instagram-feed";
 import { Reveal } from "@/components/reveal";
+import { StructuredData } from "@/components/structured-data";
 import { about } from "@/content/about";
-import { aboutTeaserSlug, artworkBySlug, image } from "@/content/artworks";
+import { aboutTeaserSlug, artworkAlt, artworkBySlug, image } from "@/content/artworks";
 import { site } from "@/content/site";
+import { personJsonLd, localBusinessJsonLd } from "@/lib/structured-data";
+
+const homeTitle = `${site.brand} | Custom Portraits & Illustration by ${site.name}`;
+const homeDescription =
+  "Commission a custom portrait, or browse devotional art, pen-and-ink likenesses and fan art by Snehasish Konger — the artist behind S. Konger Arts, based in Gurugram, India.";
+
+// Bypasses the layout's title template (Home's title IS the site's default
+// title, so appending " — S. Konger Arts" again would duplicate the brand).
+export const metadata: Metadata = {
+  title: { absolute: homeTitle },
+  description: homeDescription,
+  alternates: { canonical: "/" },
+  openGraph: { title: homeTitle, description: homeDescription, url: "/" },
+  twitter: { card: "summary_large_image", title: homeTitle, description: homeDescription },
+};
 
 export default function HomePage() {
   const teaserImage = image(aboutTeaserSlug);
@@ -14,6 +31,8 @@ export default function HomePage() {
 
   return (
     <>
+      <StructuredData schemas={[personJsonLd(), localBusinessJsonLd()]} />
+
       <HomeHero />
 
       <SelectedWorks />
@@ -25,7 +44,7 @@ export default function HomePage() {
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-paper-deep">
               <Image
                 src={teaserImage.src}
-                alt={teaserArtwork?.title ?? ""}
+                alt={teaserArtwork ? artworkAlt(teaserArtwork) : ""}
                 fill
                 sizes="(max-width: 768px) 92vw, 34vw"
                 placeholder="blur"
@@ -93,10 +112,8 @@ export default function HomePage() {
           </Reveal>
 
           <Reveal className="bg-paper-raised/60" delay={0.08}>
-            <a
-              href={site.shopUrl}
-              target="_blank"
-              rel="noreferrer noopener"
+            <Link
+              href="/shop"
               className="group flex h-full flex-col justify-between gap-10 p-9 transition-colors duration-700 hover:bg-paper-deep/70 md:p-14"
             >
               <div>
@@ -105,14 +122,14 @@ export default function HomePage() {
                   Something ready to ship
                 </p>
                 <p className="mt-4 max-w-sm text-ink-muted">
-                  Prints and originals, packed and posted from Gurugram. The store lives at
-                  snehasishkonger.com — the shop page here is a quick look at what&apos;s in it.
+                  Prints and originals, packed and posted from Gurugram. Message me on Instagram
+                  and it&apos;s on its way.
                 </p>
               </div>
               <span className="font-sans text-[0.8125rem] uppercase tracking-[0.16em] text-ink transition-colors duration-500 group-hover:text-clay">
-                Browse the shop ↗
+                Browse the shop →
               </span>
-            </a>
+            </Link>
           </Reveal>
         </div>
 

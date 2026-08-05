@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
-import { artworks, heroSlug, image } from "@/content/artworks";
+import { artworkAlt, artworks, heroSlug, image } from "@/content/artworks";
 
 /**
  * ============================================================================
@@ -94,7 +94,7 @@ async function loadPosts(limit: number): Promise<{ posts: Post[]; live: boolean 
           key: a.slug,
           src: img.src,
           href: site.instagramUrl,
-          alt: a.title,
+          alt: artworkAlt(a),
           remote: false,
           blurDataURL: img.blurDataURL,
           reference: `${a.title} (from the site gallery)`,

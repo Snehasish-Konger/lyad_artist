@@ -40,6 +40,7 @@ type Values = {
   occasion: string;
   size: string;
   referenceLink: string;
+  instagramPostReference: string;
   name: string;
   email: string;
   instagram: string;
@@ -53,6 +54,7 @@ const EMPTY: Values = {
   occasion: "",
   size: "",
   referenceLink: "",
+  instagramPostReference: "",
   name: "",
   email: "",
   instagram: "",
@@ -101,6 +103,7 @@ export function CommissionForm() {
             : `Referencing: ${ref}`,
         );
         if (/^https?:\/\//i.test(ref)) next.referenceLink = ref;
+        next.instagramPostReference = ref;
       }
       if (piece) notes.push(`Something in the style of "${piece}".`);
       if (notes.length && !next.description) next.description = `${notes.join("\n")}\n\n`;

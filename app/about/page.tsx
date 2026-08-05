@@ -3,15 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
 import { Reveal } from "@/components/reveal";
+import { StructuredData } from "@/components/structured-data";
 import { about } from "@/content/about";
-import { image, portraitSlug, artworkBySlug } from "@/content/artworks";
+import { artworkAlt, image, portraitSlug, artworkBySlug } from "@/content/artworks";
 import { site } from "@/content/site";
+import { pageMetadata } from "@/lib/seo";
+import { personJsonLd } from "@/lib/structured-data";
 
-export const metadata: Metadata = {
-  title: "About",
+export const metadata: Metadata = pageMetadata({
+  title: "About Snehasish Konger",
   description: about.teaser,
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+});
 
 /** Two pieces shown mid-page as process examples. Any slug from artworks.ts. */
 const processPieces = ["manmohan-singh", "premanand-ji"];
@@ -21,6 +24,8 @@ export default function AboutPage() {
 
   return (
     <>
+      <StructuredData schemas={[personJsonLd()]} />
+
       <PageHeader kicker="About" title="Snehasish Konger" lede={about.lede} />
 
       <div className="shell">
@@ -31,7 +36,7 @@ export default function AboutPage() {
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-paper-deep">
                 <Image
                   src={portrait.src}
-                  alt={site.name}
+                  alt={`${site.name} in his studio`}
                   fill
                   sizes="(max-width: 768px) 92vw, 34vw"
                   placeholder="blur"
@@ -82,7 +87,7 @@ export default function AboutPage() {
                     <div className="relative aspect-[4/5] overflow-hidden bg-paper-deep">
                       <Image
                         src={img.src}
-                        alt={art?.title ?? ""}
+                        alt={art ? artworkAlt(art) : ""}
                         fill
                         sizes="(max-width: 768px) 45vw, 24vw"
                         placeholder="blur"

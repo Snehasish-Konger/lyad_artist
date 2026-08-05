@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
-import { image, type Artwork } from "@/content/artworks";
+import { artworkAlt, image, type Artwork } from "@/content/artworks";
 import { categoryById } from "@/content/categories";
 import { OrderOnInstagram } from "@/components/order-on-instagram";
 import { buildOrderMessage } from "@/lib/order-message";
@@ -116,7 +116,7 @@ export function Lightbox({
               >
                 <Image
                   src={image(art.slug).src}
-                  alt={art.title}
+                  alt={artworkAlt(art)}
                   fill
                   sizes="(max-width: 1024px) 100vw, 66vw"
                   placeholder="blur"

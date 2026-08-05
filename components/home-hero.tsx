@@ -26,7 +26,7 @@ export function HomeHero() {
       <div className="relative h-[54svh] w-full shrink-0 overflow-hidden bg-paper-deep md:hidden">
         <Image
           src={img.src}
-          alt=""
+          alt={`${site.name}, artist behind ${site.brand}`}
           fill
           priority
           sizes="100vw"
@@ -50,7 +50,7 @@ export function HomeHero() {
       <div className="absolute inset-y-0 right-0 hidden w-[58%] overflow-hidden md:block">
         <Image
           src={img.src}
-          alt=""
+          alt={`${site.name}, artist behind ${site.brand}`}
           fill
           priority
           sizes="58vw"
@@ -78,14 +78,10 @@ export function HomeHero() {
         <div className="max-w-2xl md:max-w-md lg:max-w-lg">
           <p className="kicker">{site.location} — Commissions open</p>
 
-          <h1 className="mt-6 font-serif text-display text-ink md:mt-7">
-            Snehasish
-            <br />
-            Konger
-          </h1>
+          <h1 className="mt-6 font-serif text-display text-ink md:mt-7">S. Konger Arts</h1>
 
           <p className="mt-7 max-w-md text-[1.0625rem] leading-relaxed text-ink-soft md:mt-8 md:text-[1.1875rem]">
-            {site.positioning}
+            The studio and practice of artist {site.name}. {site.positioning}
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-x-9 gap-y-4 md:mt-11">

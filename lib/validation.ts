@@ -63,6 +63,9 @@ export const commissionSchema = z.object({
     .refine((v) => !v || /^https?:\/\//i.test(v), {
       message: "Paste the full link, starting with https://",
     }),
+  /** Set automatically from ?ref= when someone arrives via an "Order this"
+   *  button on an Instagram post in the feed — not user-editable. */
+  instagramPostReference: z.string().trim().max(500).optional().or(z.literal("")),
   name,
   email,
   instagram: z.string().trim().max(60).optional().or(z.literal("")),

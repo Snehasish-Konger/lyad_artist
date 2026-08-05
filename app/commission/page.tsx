@@ -4,13 +4,14 @@ import { CommissionTabs } from "@/components/commission-tabs";
 import { PageHeader } from "@/components/page-header";
 import { Reveal } from "@/components/reveal";
 import { site } from "@/content/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Commission a portrait",
+export const metadata: Metadata = pageMetadata({
+  title: "Commission a Custom Portrait",
   description:
-    "Commission a devotional portrait, pen-and-ink likeness, anime piece or home decor illustration. Tell me about it and I'll come back with a price and a timeline.",
-  alternates: { canonical: "/commission" },
-};
+    "Commission a devotional portrait, pen-and-ink likeness, anime piece or home decor illustration from S. Konger Arts. Tell me about it and I'll reply within a couple of days with a price and a timeline.",
+  path: "/commission",
+});
 
 /** What actually happens after someone sends the form. Stated plainly, because
  *  not knowing is the main reason people close the tab. */

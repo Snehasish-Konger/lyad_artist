@@ -7,14 +7,14 @@ import { OrderCard } from "@/components/order-on-instagram";
 import { buildOrderMessage } from "@/lib/order-message";
 import { shopSections } from "@/content/shop";
 import { image } from "@/content/artworks";
-import { site } from "@/content/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Shop",
+export const metadata: Metadata = pageMetadata({
+  title: "Shop — Prints & Originals",
   description:
-    "Prints and originals by Snehasish Konger — message @lyad_artist on Instagram to order, or browse the full store at snehasishkonger.com.",
-  alternates: { canonical: "/shop" },
-};
+    "Prints and originals by Snehasish Konger of S. Konger Arts — devotional pieces, home decor illustration and more. Message @lyad_artist on Instagram to order.",
+  path: "/shop",
+});
 
 /**
  * A preview of what's available, not a second storefront. Nothing here has a
@@ -26,7 +26,7 @@ export default function ShopPage() {
       <PageHeader
         kicker="Shop"
         title="Prints and originals, posted from Gurugram."
-        lede="Message me on Instagram to order any of these directly, or browse the full store at snehasishkonger.com."
+        lede="Message me on Instagram to order any of these directly — sizing, pricing and availability, sorted in a few messages."
       />
 
       <div className="shell">
@@ -42,7 +42,7 @@ export default function ShopPage() {
                   <div className="relative aspect-[16/11] overflow-hidden bg-paper-deep">
                     <Image
                       src={img.src}
-                      alt={section.title}
+                      alt={`${section.title} — ${section.blurb}`}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       placeholder="blur"
@@ -93,17 +93,6 @@ export default function ShopPage() {
               Start a commission
             </Link>
           </div>
-        </Reveal>
-
-        <Reveal className="mt-14">
-          <a
-            href={site.shopUrl}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="ink-link font-sans text-[0.8125rem] uppercase tracking-[0.16em] text-ink"
-          >
-            Open the full store — snehasishkonger.com ↗
-          </a>
         </Reveal>
       </div>
     </>

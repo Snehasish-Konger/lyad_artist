@@ -2,7 +2,7 @@
   "name": "snehasish-konger-studio",
   "version": "1.0.0",
   "private": true,
-  "description": "Portfolio and commission site for Snehasish Konger (lyad_artist)",
+  "description": "S. Konger Arts — portfolio and commission site for artist Snehasish Konger (lyad_artist)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -20,10 +20,13 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.0",
     "lucide-react": "^0.544.0",
+    "google-auth-library": "^9.15.0",
+    "google-spreadsheet": "^4.1.4",
     "next": "^15.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "resend": "^6.0.0",
+    "sharp": "^0.34.3",
     "tailwind-merge": "^3.3.1",
     "zod": "^3.25.76"
   },
@@ -32,7 +35,6 @@
     "@types/node": "^22.15.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
-    "sharp": "^0.34.3",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2"
   }

@@ -1,14 +1,16 @@
-# Snehasish Konger — Studio Site
+# S. Konger Arts — Studio Site
 
-Portfolio and commission site for **Snehasish Konger** (`@lyad_artist`).
-Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Framer Motion · Resend.
+The primary online home for **S. Konger Arts**, the studio and practice of
+artist **Snehasish Konger** (`@lyad_artist` on Instagram). This site and
+Instagram are the only two places this work lives — there is no separate
+storefront domain.
+Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Framer Motion · Resend · Google Sheets.
 
 It is a portfolio and a way to reach you. It deliberately has **no cart, no
 checkout and no product pages** — commissions are a conversation that starts
 with a form, and buying an existing piece happens by messaging
-[@lyad_artist](https://instagram.com/lyad_artist) on Instagram. The full
-Shopify store at snehasishkonger.com is still linked from the Shop page for
-browsing, but nothing on this site checks out through it.
+[@lyad_artist](https://instagram.com/lyad_artist) on Instagram, one tap away
+from every piece on the site via its "Order it" button.
 
 ---
 
@@ -35,14 +37,32 @@ builds do this ahead of time.
 
 ---
 
-## Setting up email
+## How a form submission actually works
 
-Both forms POST to a Next.js route handler which sends you a formatted email
-through [Resend](https://resend.com). **Without an API key nothing is sent** —
-the form still shows its success state and the message is printed to your
-terminal instead, so you can test the flow before signing up.
+Both the commission form and the question form (used standalone on `/contact`
+and as the "Just have a question" tab on `/commission`) do the same two things
+on submit, in this order:
 
-1. Create a free Resend account.
+1. **Append a row to a Google Sheet** — the permanent, source-of-truth log of
+   every enquiry. You fill in the `Status` column yourself later (New,
+   Replied, Commissioned, Closed) as you work through it.
+2. **Send you a formatted email via Resend** — a nice-to-have notification on
+   top of the Sheet, so you don't have to keep the Sheet open to notice a new
+   enquiry.
+
+The visitor only sees a success screen if the **Sheet write succeeds** — email
+is secondary, so a Resend hiccup alone won't block anyone or lose their
+enquiry. If the Sheet write fails, the error asks them to email
+`studio@snehasishkonger.com` directly instead, and the failure is logged
+server-side either way so nothing silently disappears.
+
+Without any of the environment variables below, nothing is sent or logged —
+the terminal prints what *would* have gone out instead, so you can test the
+form flow end to end before setting either service up.
+
+### Email (Resend)
+
+1. Create a free [Resend](https://resend.com) account.
 2. Add `snehasishkonger.com` under **Domains** and add the DNS records it gives
    you. (Until that's verified you can send from `onboarding@resend.dev`, but it
    will only deliver to the address you signed up with.)
@@ -52,12 +72,48 @@ terminal instead, so you can test the flow before signing up.
 ```
 RESEND_API_KEY=re_xxxxxxxx
 STUDIO_EMAIL=studio@snehasishkonger.com
-MAIL_FROM="Snehasish Konger Studio <studio@snehasishkonger.com>"
+MAIL_FROM="S. Konger Arts <studio@snehasishkonger.com>"
 ```
 
-Both forms are validated on the client *and* again on the server, carry a
-hidden honeypot field for spam, and surface a real error with your email address
-if the send fails — no silent dead ends.
+### Google Sheets (the permanent log)
+
+This uses a **service account**, not your own Google login — a service
+account is a robot identity that never needs a human to click "allow," which
+is what a server-side API route needs. The Sheet itself is already created;
+you're just giving a robot identity permission to write to it.
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com),
+   create a project (or use an existing one), and enable the
+   **Google Sheets API** under APIs & Services.
+2. **IAM & Admin → Service Accounts → Create Service Account.** Any name is
+   fine — it doesn't need any project-level role, since access is granted
+   directly on the Sheet in the next step.
+3. Open the service account you just created → **Keys → Add Key → Create new
+   key → JSON.** This downloads a `.json` file — treat it like a password and
+   never commit it.
+4. Open that file and copy two values into `.env.local`:
+   ```
+   GOOGLE_SERVICE_ACCOUNT_EMAIL=your-service-account@your-project.iam.gserviceaccount.com
+   GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+   ```
+   Keep the quotes and the `\n` sequences literally as they appear in the
+   JSON file — the code converts them back into real newlines at runtime.
+5. **The one manual step that can't be scripted:** open the
+   [Google Sheet](https://docs.google.com/spreadsheets/d/1S4FTFyrOzhGefyIGg2WkYuWrkBQ1kaHMo8J0Ih2k0m0/edit)
+   itself, click **Share**, and add the service account's email address
+   (the `client_email` from the JSON file) with **Editor** access. Until you
+   do this, every append attempt fails with a permissions error — logged to
+   the server console, not shown to visitors as anything scarier than the
+   generic "please email me directly" fallback.
+
+The header row (`Timestamp | Type | Name | Email | Instagram Handle | Phone |
+Category | Description | Reference Image Link | Occasion | Preferred Size |
+Preferred Contact Method | Instagram Post Reference | Status`) is created
+automatically on the first successful submission if the sheet doesn't already
+have one.
+
+Both forms are validated on the client *and* again on the server, and carry a
+hidden honeypot field for spam.
 
 ---
 
@@ -171,16 +227,26 @@ app/
   gallery/              Filterable masonry + lightbox  (/gallery?c=devotional works)
   about/  shop/  contact/
   commission/           The important one
-  api/commission/       Multipart (handles the reference photo) → email
-  api/contact/          JSON → email
+  api/commission/       Multipart (handles the reference photo) → email + sheet
+  api/contact/          JSON → email + sheet
+  icon.tsx, apple-icon.tsx        Typography favicon (next/og, no image asset)
+  opengraph-image.tsx             Per-route social preview images (one pair
+  */opengraph-image.tsx           per page, twitter-image.tsx re-exports it)
 components/
   ui/                   Form primitives — shadcn's structure, custom styling
   home-hero, selected-works, gallery-grid, lightbox, artwork-tile,
   instagram-feed, commission-form, commission-tabs, question-form, reveal
+  order-on-instagram.tsx          "Order it" — copies a message, opens IG DM
+  structured-data.tsx             Renders Person/LocalBusiness JSON-LD
 content/                Everything you'd want to edit. No JSX in here.
 lib/
   validation.ts         Zod schemas shared by client and server
   email.ts              Resend + the email templates
+  sheets.ts             Google Sheets append (service account auth)
+  seo.ts                Per-page metadata helper (title/description → full Metadata)
+  structured-data.ts    Person + LocalBusiness JSON-LD builders
+  og-image.tsx          Shared social-preview image renderer (next/og + sharp)
+  order-message.ts      Builds the Instagram DM message text
 scripts/optimize-images.mjs
 ```
 

@@ -106,16 +106,18 @@ function plain(rows: [string, string][], body: [string, string][] = []) {
 // ── Public senders ──────────────────────────────────────────────────────────
 
 export function sendCommission(data: CommissionInput, attachments: Attachment[]) {
-  const typeLabel =
+  const categoryLabel =
     data.type === "unsure"
       ? "Not sure yet — wants to talk it through"
       : (categoryById[data.type as keyof typeof categoryById]?.label ?? data.type);
 
   const rows: [string, string][] = [
-    ["Type", typeLabel],
+    ["Type", "Commission Request"],
+    ["Category", categoryLabel],
     ["Occasion", data.occasion ?? ""],
     ["Size", data.size ?? ""],
     ["Reference", data.referenceLink ?? ""],
+    ["Instagram post", data.instagramPostReference ?? ""],
     ["Attachment", attachments.length ? attachments.map((a) => a.filename).join(", ") : "None"],
     ["From", data.name],
     ["Email", data.email],
@@ -125,7 +127,7 @@ export function sendCommission(data: CommissionInput, attachments: Attachment[])
   ];
 
   return send({
-    subject: `Commission — ${typeLabel} — ${data.name}`,
+    subject: `Commission — ${categoryLabel} — ${data.name}`,
     replyTo: data.email,
     html: shell("New commission enquiry", rows, [
       { label: "What they're after", text: data.description },
@@ -137,6 +139,7 @@ export function sendCommission(data: CommissionInput, attachments: Attachment[])
 
 export function sendQuestion(data: QuestionInput) {
   const rows: [string, string][] = [
+    ["Type", "General Question"],
     ["From", data.name],
     ["Email", data.email],
   ];

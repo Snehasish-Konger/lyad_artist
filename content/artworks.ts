@@ -1,5 +1,5 @@
 import manifest from "./artwork-manifest.json";
-import type { CategoryId } from "./categories";
+import { categoryById, type CategoryId } from "./categories";
 
 /**
  * ============================================================================
@@ -417,6 +417,18 @@ export function image(slug: string): ManifestEntry {
 
 export function artworkBySlug(slug: string) {
   return artworks.find((a) => a.slug === slug);
+}
+
+/**
+ * Descriptive alt text — category and medium give search engines and screen
+ * readers something concrete, rather than just a proper noun. Composed from
+ * existing fields so it stays correct automatically as titles/captions get
+ * rewritten; no per-image alt copy to maintain separately.
+ */
+export function artworkAlt(a: Artwork): string {
+  const category = categoryById[a.category].label.toLowerCase();
+  const medium = a.medium ? `, ${a.medium.toLowerCase()}` : "";
+  return `${a.title} — ${category}${medium}`;
 }
 
 export const featuredArtworks = artworks.filter((a) => a.featured);

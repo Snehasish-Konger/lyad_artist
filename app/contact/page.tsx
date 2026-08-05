@@ -4,13 +4,14 @@ import { PageHeader } from "@/components/page-header";
 import { QuestionForm } from "@/components/question-form";
 import { Reveal } from "@/components/reveal";
 import { site } from "@/content/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description:
-    "Get in touch with Snehasish Konger — studio@snehasishkonger.com, or @lyad_artist on Instagram. Based in Gurugram, ships across India.",
-  alternates: { canonical: "/contact" },
-};
+    "Reach S. Konger Arts directly — studio@snehasishkonger.com, or @lyad_artist on Instagram. Based in Gurugram, India, shipping across the country.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (
@@ -50,14 +51,9 @@ export default function ContactPage() {
               <div className="py-6">
                 <dt className="kicker">Shop</dt>
                 <dd className="mt-2.5">
-                  <a
-                    href={site.shopUrl}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="ink-link text-lg text-ink"
-                  >
-                    snehasishkonger.com ↗
-                  </a>
+                  <Link href="/shop" className="ink-link text-lg text-ink">
+                    Prints & originals
+                  </Link>
                 </dd>
               </div>
               <div className="py-6">
@@ -85,7 +81,7 @@ export default function ContactPage() {
             <div className="mt-10">
               <QuestionForm
                 successTitle="Message received."
-                successBody="It's landed in my inbox and I read everything myself — expect a reply within a day or two, from studio@snehasishkonger.com. If it doesn't turn up, have a look in your promotions tab before assuming I've ignored you."
+                successBody="It's landed in my inbox and I read everything myself. Replies come from studio@snehasishkonger.com — if it doesn't turn up, have a look in your promotions tab before assuming I've ignored you."
               />
             </div>
           </Reveal>

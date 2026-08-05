@@ -15,12 +15,13 @@ type Status = "idle" | "sending" | "sent" | "error";
  */
 export function QuestionForm({
   successTitle = "Got it.",
-  successBody = "Your message is with me. I read everything myself, usually within a day or two — replies come from studio@snehasishkonger.com, so keep an eye on your promotions tab.",
+  successBody = "Your message is with me and I read everything myself.",
 }: {
   successTitle?: string;
   successBody?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
+  const [sentTo, setSentTo] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -52,6 +53,7 @@ export function QuestionForm({
         setStatus("error");
         return;
       }
+      setSentTo(parsed.data.email);
       setStatus("sent");
     } catch {
       setFormError(
@@ -62,7 +64,7 @@ export function QuestionForm({
   }
 
   if (status === "sent") {
-    return <Confirmation title={successTitle} body={successBody} />;
+    return <Confirmation title={successTitle} body={successBody} email={sentTo} />;
   }
 
   return (
@@ -114,7 +116,17 @@ export function Honeypot() {
   );
 }
 
-export function Confirmation({ title, body }: { title: string; body: string }) {
+export function Confirmation({
+  title,
+  body,
+  email,
+}: {
+  title: string;
+  body: string;
+  /** When given, adds a line naming exactly where the reply is going —
+   *  "Got it" alone doesn't tell anyone what happens next. */
+  email?: string;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -124,7 +136,10 @@ export function Confirmation({ title, body }: { title: string; body: string }) {
     >
       <p className="kicker">Sent</p>
       <h3 className="mt-4 font-serif text-title leading-tight text-ink">{title}</h3>
-      <p className="mt-5 max-w-lg text-[1.0625rem] leading-relaxed text-ink-soft">{body}</p>
+      <p className="mt-5 max-w-lg text-[1.0625rem] leading-relaxed text-ink-soft">
+        {body}
+        {email && ` I'll get back to you at ${email} within a couple of days.`}
+      </p>
       <p className="mt-8 text-sm text-ink-muted">
         In the meantime there&apos;s more work on{" "}
         <a
