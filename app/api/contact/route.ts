@@ -40,11 +40,11 @@ export async function POST(request: Request) {
   ]);
 
   if (!emailResult.ok) {
-    console.error("[contact] email send failed:", emailResult.reason);
+    console.error("[contact] email_send_failed:", emailResult.reason);
   }
 
   if (!sheetResult.ok) {
-    console.error("[contact] sheet append failed:", sheetResult.reason);
+    console.error("[contact] sheet_append_failed:", sheetResult.reason);
     return NextResponse.json(
       {
         error:

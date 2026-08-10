@@ -29,9 +29,8 @@ import { categoryById, type CategoryId } from "./categories";
  *               feel like a person made it. Leave it out rather than pad it.
  *   featured    true = appears in Selected Works on the home page
  *   shopUrl     any non-empty string = this exact piece is for sale. The
- *               lightbox then shows "Order it", which opens an Instagram DM
- *               to @lyad_artist with a ready-made message — not a Shopify
- *               link, see components/order-on-instagram.tsx for why.
+ *               lightbox then shows "Order it" with a choice of WhatsApp or
+ *               Instagram DM — see components/order-choice.tsx.
  *   commissionable  set false to hide the "available as a commission" line
  * ============================================================================
  */

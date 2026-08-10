@@ -1,15 +1,25 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { categoryById } from "@/content/categories";
 import type { CommissionInput, QuestionInput } from "./validation";
 
 const STUDIO_EMAIL = process.env.STUDIO_EMAIL ?? "studio@snehasishkonger.com";
-const MAIL_FROM = process.env.MAIL_FROM ?? "Studio <onboarding@resend.dev>";
+const MAIL_FROM = process.env.MAIL_FROM ?? `S. Konger Arts <${STUDIO_EMAIL}>`;
 
-/** Lazily constructed so a missing key is a runtime send error, not a build failure. */
-function client() {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) return null;
-  return new Resend(key);
+const SMTP_HOST = process.env.SMTP_HOST ?? "smtp.hostinger.com";
+const SMTP_PORT = Number(process.env.SMTP_PORT ?? 465);
+const SMTP_USER = process.env.SMTP_USER;
+const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
+
+/** Lazily constructed so a missing password is a runtime send error, not a build failure. */
+function transporter() {
+  if (!SMTP_USER || !SMTP_PASSWORD) return null;
+  return nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: SMTP_PORT,
+    // Port 465 is implicit TLS; 587 is STARTTLS negotiated after connecting.
+    secure: SMTP_PORT === 465,
+    auth: { user: SMTP_USER, pass: SMTP_PASSWORD },
+  });
 }
 
 export type Attachment = { filename: string; content: Buffer };
@@ -23,34 +33,44 @@ async function send(opts: {
   text: string;
   attachments?: Attachment[];
 }): Promise<SendResult> {
-  const resend = client();
+  const transport = transporter();
 
-  if (!resend) {
-    // In local development without a key, log the message instead of pretending
-    // it sent. The form still shows its success state so the flow is testable.
+  if (!transport) {
+    // In local development without credentials, log the message instead of
+    // pretending it sent. The form still shows its success state so the flow
+    // is testable.
     console.warn(
-      "\n[email] RESEND_API_KEY is not set — message not sent. Copy .env.example to .env.local to enable.\n" +
+      "\n[email] email_send_skipped — SMTP_USER / SMTP_PASSWORD are not set. Copy .env.example to .env.local to enable.\n" +
         `[email] to: ${STUDIO_EMAIL}\n[email] subject: ${opts.subject}\n\n${opts.text}\n`,
     );
     return { ok: true };
   }
 
-  const { error } = await resend.emails.send({
-    from: MAIL_FROM,
-    to: [STUDIO_EMAIL],
-    replyTo: opts.replyTo,
-    subject: opts.subject,
-    html: opts.html,
-    text: opts.text,
-    attachments: opts.attachments?.map((a) => ({ filename: a.filename, content: a.content })),
-  });
-
-  if (error) {
-    console.error("[email] Resend rejected the message:", error);
-    return { ok: false, reason: error.message ?? "Email provider error" };
+  try {
+    await transport.sendMail({
+      from: MAIL_FROM,
+      to: STUDIO_EMAIL,
+      replyTo: opts.replyTo,
+      subject: opts.subject,
+      html: opts.html,
+      text: opts.text,
+      attachments: opts.attachments?.map((a) => ({ filename: a.filename, content: a.content })),
+    });
+    return { ok: true };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    // Hostinger's most common rejection: SMTP_USER/PASSWORD don't match a
+    // real mailbox, or MAIL_FROM isn't that same mailbox's address (some
+    // mail servers reject a From that doesn't match the authenticated user).
+    const hint =
+      /auth|credentials|invalid login/i.test(message)
+        ? ` — check SMTP_USER/SMTP_PASSWORD are the mailbox's own login, not your Hostinger account password.`
+        : /envelope|from|address/i.test(message)
+          ? ` — check MAIL_FROM's address matches (or is a permitted alias of) the SMTP_USER mailbox.`
+          : "";
+    console.error(`[email] email_send_failed — ${message}${hint}`);
+    return { ok: false, reason: message };
   }
-
-  return { ok: true };
 }
 
 // ── Formatting ──────────────────────────────────────────────────────────────

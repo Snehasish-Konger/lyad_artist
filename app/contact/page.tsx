@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MessageCircle, Send } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { QuestionForm } from "@/components/question-form";
 import { Reveal } from "@/components/reveal";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
+import { telegramLink, waLink } from "@/lib/contact-links";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact",
@@ -13,14 +15,18 @@ export const metadata: Metadata = pageMetadata({
   path: "/contact",
 });
 
+const GENERAL_MESSAGE = "Hi! I have a question about a piece.";
+
 export default function ContactPage() {
+  const whatsappHref = waLink(GENERAL_MESSAGE);
+  const telegramHref = telegramLink(GENERAL_MESSAGE);
+  const lede = whatsappHref
+    ? "Email, WhatsApp and Instagram all reach me directly. The form below goes to the same inbox if that's easier."
+    : "Email and Instagram both reach me directly. The form below goes to the same inbox if that's easier.";
+
   return (
     <>
-      <PageHeader
-        kicker="Contact"
-        title="Say hello."
-        lede="Email and Instagram both reach me directly. The form below goes to the same inbox if that's easier."
-      />
+      <PageHeader kicker="Contact" title="Say hello." lede={lede} />
 
       <div className="shell pb-8">
         <div className="grid gap-16 md:grid-cols-12 md:gap-16">
@@ -35,6 +41,38 @@ export default function ContactPage() {
                   </a>
                 </dd>
               </div>
+              {whatsappHref && (
+                <div className="py-6">
+                  <dt className="kicker">WhatsApp</dt>
+                  <dd className="mt-2.5">
+                    <a
+                      href={whatsappHref}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="ink-link inline-flex items-center gap-2 text-lg text-ink"
+                    >
+                      <MessageCircle className="size-4" aria-hidden />
+                      Message the studio ↗
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {telegramHref && (
+                <div className="py-6">
+                  <dt className="kicker">Telegram</dt>
+                  <dd className="mt-2.5">
+                    <a
+                      href={telegramHref}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="ink-link inline-flex items-center gap-2 text-lg text-ink"
+                    >
+                      <Send className="size-4" aria-hidden />
+                      Message the studio ↗
+                    </a>
+                  </dd>
+                </div>
+              )}
               <div className="py-6">
                 <dt className="kicker">Instagram</dt>
                 <dd className="mt-2.5">

@@ -1,10 +1,11 @@
+import { site } from "@/content/site";
+
 /**
- * Plain helper, deliberately kept out of components/order-on-instagram.tsx.
- * That file is "use client", and a Server Component (the Shop page) is not
- * allowed to call a plain function imported from a client-boundary module —
- * only render its components. Living here, both server and client callers
- * can use it freely.
+ * There's no per-artwork URL (the gallery is one page with a client-side
+ * lightbox, not individual routes) — so the "link to the artwork's page"
+ * points at the gallery, and the title in the message does the rest of the
+ * identifying work.
  */
-export function buildOrderMessage(subject: string) {
-  return `Hi! I'd like to order "${subject}" — could you tell me about availability and pricing?`;
+export function buildOrderMessage(title: string) {
+  return `Hi! I'd like to order this piece: ${title} — ${site.url}/gallery`;
 }

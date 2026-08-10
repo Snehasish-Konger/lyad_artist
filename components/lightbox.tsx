@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { artworkAlt, image, type Artwork } from "@/content/artworks";
 import { categoryById } from "@/content/categories";
-import { OrderOnInstagram } from "@/components/order-on-instagram";
+import { OrderChoice } from "@/components/order-choice";
 import { buildOrderMessage } from "@/lib/order-message";
 
 /**
@@ -153,10 +153,10 @@ export function Lightbox({
 
                 <div className="mt-9 flex flex-col items-start gap-4 border-t border-paper-edge pt-7">
                   {art.shopUrl ? (
-                    <OrderOnInstagram
-                      message={buildOrderMessage(art.title)}
-                      className="ink-link font-sans text-[0.8125rem] uppercase tracking-[0.16em] text-ink"
-                    />
+                    <>
+                      <p className="text-sm text-ink-muted">Order it, your call which app:</p>
+                      <OrderChoice message={buildOrderMessage(art.title)} />
+                    </>
                   ) : art.commissionable !== false ? (
                     <>
                       <p className="text-sm text-ink-muted">

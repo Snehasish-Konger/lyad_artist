@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { MessageCircle, Send } from "lucide-react";
 import { CommissionTabs } from "@/components/commission-tabs";
 import { PageHeader } from "@/components/page-header";
 import { Reveal } from "@/components/reveal";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
+import { telegramLink, waLink } from "@/lib/contact-links";
+
+const GENERAL_MESSAGE = "Hi! I'd like to talk about a commission.";
 
 export const metadata: Metadata = pageMetadata({
   title: "Commission a Custom Portrait",
@@ -39,6 +43,9 @@ const steps = [
 ];
 
 export default function CommissionPage() {
+  const whatsappHref = waLink(GENERAL_MESSAGE);
+  const telegramHref = telegramLink(GENERAL_MESSAGE);
+
   return (
     <>
       <PageHeader
@@ -76,7 +83,35 @@ export default function CommissionPage() {
             Forms not your thing? Email{" "}
             <a href={`mailto:${site.email}`} className="ink-link text-ink">
               {site.email}
-            </a>{" "}
+            </a>
+            {whatsappHref && (
+              <>
+                , message{" "}
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="ink-link inline-flex items-center gap-1 text-ink"
+                >
+                  <MessageCircle className="size-3.5" aria-hidden />
+                  WhatsApp
+                </a>
+              </>
+            )}
+            {telegramHref && (
+              <>
+                , or{" "}
+                <a
+                  href={telegramHref}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="ink-link inline-flex items-center gap-1 text-ink"
+                >
+                  <Send className="size-3.5" aria-hidden />
+                  Telegram
+                </a>
+              </>
+            )}{" "}
             or DM{" "}
             <a
               href={site.instagramUrl}
@@ -86,7 +121,7 @@ export default function CommissionPage() {
             >
               @{site.handle}
             </a>
-            . Both reach me directly.
+            . All reach me directly.
           </p>
         </div>
       </section>

@@ -106,14 +106,14 @@ export async function POST(request: Request) {
   ]);
 
   if (!emailResult.ok) {
-    console.error("[commission] email send failed:", emailResult.reason);
+    console.error("[commission] email_send_failed:", emailResult.reason);
   }
 
   // The Sheet is the source of truth — only its success unlocks the success
   // screen. If it failed, the visitor needs to know so nothing gets lost,
   // even if the email notification happened to get through.
   if (!sheetResult.ok) {
-    console.error("[commission] sheet append failed:", sheetResult.reason);
+    console.error("[commission] sheet_append_failed:", sheetResult.reason);
     return NextResponse.json(
       {
         error:

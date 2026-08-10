@@ -3,9 +3,9 @@
  * SHOP PREVIEW — PLACEHOLDER COPY
  * ============================================================================
  * This page does NOT sell anything or link to Shopify. Each card's "Order it"
- * button copies a ready-made message and opens a DM to @lyad_artist on
- * Instagram — see components/order-on-instagram.tsx for why it works that
- * way instead of a prefilled link.
+ * row opens WhatsApp (pre-filled message) or Instagram DM (message copied to
+ * clipboard first, since Instagram can't pre-fill) — visitor's choice. See
+ * components/order-choice.tsx.
  *
  * The `image` field is any slug present in content/images/.
  * ============================================================================
