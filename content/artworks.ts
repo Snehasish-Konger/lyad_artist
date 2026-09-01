@@ -188,6 +188,26 @@ export const artworks: Artwork[] = [
     medium: "Graphite — Procreate",
     commissionable: true,
   },
+  {
+    slug: "messi",
+    title: "Messi",
+    category: "pop-culture",
+    year: "2026",
+    medium: "Ink — Procreate",
+    caption: "The eyes were the whole job. Get those right and the beard just follows.",
+    featured: true,
+    commissionable: true,
+  },
+  {
+    slug: "ithaca",
+    title: "Ithaca",
+    category: "pop-culture",
+    year: "2026",
+    medium: "Ink — Procreate",
+    caption:
+      "Odysseus and Penelope, drawn back to back on the same page — him already home in his head, her still deciding whether to believe it.",
+    commissionable: true,
+  },
 
   // ── Pen-and-ink portraits ─────────────────────────────────────────────────
   {

@@ -77,6 +77,12 @@
     "height": 2000,
     "blurDataURL": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACQAwCdASoOABQAPu1iqk2ppaQiMAgBMB2JaQAAQ0TAGWGfpTWAAP6bp4xYvZzQw45VDzo6yvA6vPqClktVXMBztGt+sfSiDp1eeCGE0dEtwAAA"
   },
+  "ithaca": {
+    "src": "/artwork/ithaca.webp",
+    "width": 2000,
+    "height": 1390,
+    "blurDataURL": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAwAwCdASoUAA4APu1kq04ppaQiMAgBMB2JaQAATvpr11OwAP7qfi0b7hU+y+eTmb2ez/el07g7UCUAAAA="
+  },
   "jim-carrey": {
     "src": "/artwork/jim-carrey.webp",
     "width": 2000,
@@ -106,6 +112,12 @@
     "width": 2000,
     "height": 2000,
     "blurDataURL": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAABwAwCdASoUABQAPu1mq08ppaOiKA1RMB2JaWtPABsIL0L/zEAA/u+486arjCZAKuo2U+H1Fzm3QYbXAAAAAA=="
+  },
+  "messi": {
+    "src": "/artwork/messi.webp",
+    "width": 1390,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAADwAwCdASoOABQAPu1iqU2ppaOiMAgBMB2JaQAAW/FlpX0zIKiNdjQAAP7gphW2A6BYeUE32lkWnS9/B7oisAAA"
   },
   "miyazaki": {
     "src": "/artwork/miyazaki.webp",
