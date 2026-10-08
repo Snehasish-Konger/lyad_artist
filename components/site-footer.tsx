@@ -45,7 +45,7 @@ export function SiteFooter() {
                   rel="noreferrer noopener"
                   className="ink-link text-ink-soft hover:text-ink"
                 >
-                  The studio's Instagram — @{site.handle}
+                  The studio&apos;s Instagram — @{site.handle}
                 </a>
               </li>
               <li>

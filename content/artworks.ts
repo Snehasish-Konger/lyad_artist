@@ -6,7 +6,7 @@ import { categoryById, type CategoryId } from "./categories";
  * THE ARTWORK LIST
  * ============================================================================
  *
- * These 35 pieces are the curated set from "Best Art collection" — this is the
+ * These pieces are the curated set from "Best Art collection" — this is the
  * whole gallery, not a sample of a bigger library.
  *
  * The images are real. Every TITLE, YEAR, MEDIUM and CAPTION below is a
@@ -32,6 +32,10 @@ import { categoryById, type CategoryId } from "./categories";
  *               lightbox then shows "Order it" with a choice of WhatsApp or
  *               Instagram DM — see components/order-choice.tsx.
  *   commissionable  set false to hide the "available as a commission" line
+ *   instagramUrl    the piece's own Instagram post (https://www.instagram.com/p/…).
+ *               Shown as "View on Instagram" in the lightbox and used by the
+ *               Instagram section's fallback grid. Leave it out and both
+ *               link to the profile instead.
  * ============================================================================
  */
 
@@ -45,10 +49,23 @@ export type Artwork = {
   featured?: boolean;
   shopUrl?: string;
   commissionable?: boolean;
+  instagramUrl?: string;
 };
 
 export const artworks: Artwork[] = [
   // ── Devotional portraits ──────────────────────────────────────────────────
+  {
+    slug: "ganesha",
+    title: "Ganesha",
+    category: "devotional",
+    year: "2026",
+    medium: "Ink — Procreate",
+    caption:
+      "Parashu raised, pasha in the other hand, one foot on the rock. The warrior Ganesha rather than the one seated on a lotus.",
+    // TODO: paste this piece's post link — until then it links to the profile.
+    // instagramUrl: "https://www.instagram.com/p/XXXXXXXXXXX/",
+    commissionable: true,
+  },
   {
     slug: "premanand-ji",
     title: "Premanand Ji Maharaj",
@@ -340,6 +357,18 @@ export const artworks: Artwork[] = [
   },
 
   // ── Home decor illustration ───────────────────────────────────────────────
+  {
+    slug: "kolkata-tram",
+    title: "Route 6, Gariahat–Esplanade",
+    category: "home-decor",
+    year: "2026",
+    medium: "Ink — Procreate",
+    caption:
+      "Car 248 on the Kolkata tram line. Drawn mostly for the overhead wire, the grilles and the dents in the paint.",
+    // TODO: paste this piece's post link — until then it links to the profile.
+    // instagramUrl: "https://www.instagram.com/p/XXXXXXXXXXX/",
+    commissionable: true,
+  },
   {
     slug: "no-sugar",
     title: "No Sugar",

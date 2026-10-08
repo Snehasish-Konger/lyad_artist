@@ -81,23 +81,24 @@ async function loadPosts(limit: number): Promise<{ posts: Post[]; live: boolean 
     }
   }
 
-  // Fallback: recent work, skipping anything already shown in Selected Works
-  // or the hero so the home page doesn't repeat itself.
+  // Fallback: recent work (newest year first), skipping anything already
+  // shown in Selected Works or the hero so the home page doesn't repeat itself.
   return {
     live: false,
     posts: artworks
       .filter((a) => !a.featured && a.slug !== heroSlug)
+      .sort((a, b) => (b.year ?? "").localeCompare(a.year ?? ""))
       .slice(0, limit)
       .map((a) => {
         const img = image(a.slug);
         return {
           key: a.slug,
           src: img.src,
-          href: site.instagramUrl,
+          href: a.instagramUrl ?? site.instagramUrl,
           alt: artworkAlt(a),
           remote: false,
           blurDataURL: img.blurDataURL,
-          reference: `${a.title} (from the site gallery)`,
+          reference: a.instagramUrl ?? `${a.title} (from the site gallery)`,
         };
       }),
   };

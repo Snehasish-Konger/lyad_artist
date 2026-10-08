@@ -53,6 +53,12 @@
     "height": 2000,
     "blurDataURL": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAwCdASoUABQAPu1krE4ppaSiKA1RMB2JaQAAIfknBjkbVEDweYAA/uqSNw5E5SThP5Gs/J4NeP7d/PqocdnG6IkNO5QAAAA="
   },
+  "ganesha": {
+    "src": "/artwork/ganesha.webp",
+    "width": 1500,
+    "height": 1500,
+    "blurDataURL": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAAAQBACdASoUABQAPu1kqE2ppaOiMAgBMB2JZwDKtA/ruwMdMXmqdwGioAD+6pFTZ4JBJk6ln63vjTeTKoKqR5wDDxoKMrM+OgI2g5sOAAA="
+  },
   "ha-yuk": {
     "src": "/artwork/ha-yuk.webp",
     "width": 2000,
@@ -88,6 +94,12 @@
     "width": 2000,
     "height": 2000,
     "blurDataURL": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAABwBQCdASoUABQAPu1oqk+ppiOiKA1RMB2JaQAAIXnJ6vYTpwFWLffD9uOI1sxZqRhsKsgAAP7x4NbhC5SloTUePZfltpNUCiGmWSeYV43eil4QQmqqI7P7bS2GE6iSbwU8AAAA"
+  },
+  "kolkata-tram": {
+    "src": "/artwork/kolkata-tram.webp",
+    "width": 2000,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADwBACdASoUABQAPu1qq1CppaOiqAqpMB2JaQAALnYFckWNcmOvDnBlfYTRyjkA9wAA/up56QzQK/kWnI2U2D7eU8DU/5Rtr2UX1Ut6jDk8IAAA"
   },
   "kurukshetra": {
     "src": "/artwork/kurukshetra.webp",

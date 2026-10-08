@@ -3,7 +3,6 @@ export function StructuredData({ schemas }: { schemas: object[] }) {
   return (
     <>
       {schemas.map((schema, i) => (
-        // eslint-disable-next-line react/no-danger
         <script
           key={i}
           type="application/ld+json"
