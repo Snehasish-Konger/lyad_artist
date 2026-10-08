@@ -136,7 +136,7 @@ export function SiteHeader() {
                 transition={{ delay: 0.4, duration: 0.5 }}
                 className="mt-10 font-sans text-[0.75rem] uppercase tracking-[0.2em] text-ink-muted"
               >
-                The studio's Instagram — @{site.handle} ↗
+                The studio&apos;s Instagram — @{site.handle} ↗
               </motion.a>
             </nav>
           </motion.div>

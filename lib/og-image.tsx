@@ -65,8 +65,11 @@ export async function renderOgImage({
             {site.brand}
           </div>
         </div>
+        {/* Rendered by ImageResponse (Satori), where next/image isn't available. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={dataUri}
+          alt=""
           width={760}
           height={630}
           style={{ objectFit: "cover" }}
