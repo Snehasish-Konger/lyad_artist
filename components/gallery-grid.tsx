@@ -70,7 +70,7 @@ export function GalleryGrid({ initialFilter = "all" }: { initialFilter?: Filter 
           >
             {active
               ? active.blurb
-              : "Everything, most recent first. Click any piece to see it properly."}
+              : "Everything, grouped by kind. Click any piece to see it properly."}
           </motion.p>
         </AnimatePresence>
       </div>

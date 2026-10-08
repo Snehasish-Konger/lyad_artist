@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Instagram, X } from "lucide-react";
 import { artworkAlt, image, type Artwork } from "@/content/artworks";
 import { categoryById } from "@/content/categories";
+import { site } from "@/content/site";
 import { OrderChoice } from "@/components/order-choice";
 import { buildOrderMessage } from "@/lib/order-message";
 
@@ -172,6 +173,15 @@ export function Lightbox({
                       </Link>
                     </>
                   ) : null}
+                  <a
+                    href={art.instagramUrl ?? site.instagramUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="ink-link inline-flex items-center gap-1.5 font-sans text-[0.8125rem] uppercase tracking-[0.16em] text-ink-muted hover:text-ink"
+                  >
+                    <Instagram className="size-3.5" aria-hidden />
+                    {art.instagramUrl ? "View on Instagram ↗" : `More on @${site.handle} ↗`}
+                  </a>
                 </div>
               </div>
             </div>
