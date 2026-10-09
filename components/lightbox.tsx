@@ -9,6 +9,7 @@ import { artworkAlt, image, type Artwork } from "@/content/artworks";
 import { categoryById } from "@/content/categories";
 import { site } from "@/content/site";
 import { OrderChoice } from "@/components/order-choice";
+import { instagramLink } from "@/lib/instagram";
 import { buildOrderMessage } from "@/lib/order-message";
 
 /**
@@ -28,6 +29,7 @@ export function Lightbox({
 }) {
   const open = index !== null;
   const art = open ? items[index] : undefined;
+  const instagram = instagramLink(art?.instagramPost);
 
   const go = useCallback(
     (delta: number) => {
@@ -174,13 +176,13 @@ export function Lightbox({
                     </>
                   ) : null}
                   <a
-                    href={art.instagramUrl ?? site.instagramUrl}
+                    href={instagram.href}
                     target="_blank"
                     rel="noreferrer noopener"
                     className="ink-link inline-flex items-center gap-1.5 font-sans text-[0.8125rem] uppercase tracking-[0.16em] text-ink-muted hover:text-ink"
                   >
                     <Instagram className="size-3.5" aria-hidden />
-                    {art.instagramUrl ? "View on Instagram ↗" : `More on @${site.handle} ↗`}
+                    {instagram.isPost ? "View on Instagram ↗" : `More on @${site.handle} ↗`}
                   </a>
                 </div>
               </div>

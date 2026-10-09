@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
 import { artworkAlt, artworks, heroSlug, image } from "@/content/artworks";
+import { instagramLink } from "@/lib/instagram";
 
 /**
  * ============================================================================
@@ -42,6 +43,8 @@ type Post = {
   key: string;
   src: string;
   href: string;
+  /** false = no post link for this piece, so href is the profile. */
+  isPost: boolean;
   alt: string;
   remote: boolean;
   blurDataURL?: string;
@@ -68,6 +71,7 @@ async function loadPosts(limit: number): Promise<{ posts: Post[]; live: boolean 
               key: p.id,
               src: p.sizes?.medium?.mediaUrl ?? p.thumbnailUrl ?? p.mediaUrl,
               href: p.permalink,
+              isPost: true,
               alt: p.caption?.slice(0, 120) ?? `Post by @${site.handle}`,
               remote: true,
               reference: p.permalink,
@@ -91,14 +95,16 @@ async function loadPosts(limit: number): Promise<{ posts: Post[]; live: boolean 
       .slice(0, limit)
       .map((a) => {
         const img = image(a.slug);
+        const instagram = instagramLink(a.instagramPost);
         return {
           key: a.slug,
           src: img.src,
-          href: a.instagramUrl ?? site.instagramUrl,
+          href: instagram.href,
+          isPost: instagram.isPost,
           alt: artworkAlt(a),
           remote: false,
           blurDataURL: img.blurDataURL,
-          reference: a.instagramUrl ?? `${a.title} (from the site gallery)`,
+          reference: instagram.isPost ? instagram.href : `${a.title} (from the site gallery)`,
         };
       }),
   };
@@ -151,15 +157,19 @@ export async function InstagramFeed({
               className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
             />
 
-            {/* Two ways out of every post: look at it, or order one like it. */}
-            <div className="absolute inset-0 flex flex-col justify-end gap-px bg-ink/0 p-2 opacity-0 transition-all duration-500 group-hover:bg-ink/45 group-hover:opacity-100 focus-within:bg-ink/45 focus-within:opacity-100">
+            {/* Two ways out of every post: look at it, or order one like it.
+                Revealed on hover with a mouse; always shown on touch screens,
+                which have no hover — otherwise a tap lands on an invisible
+                button. */}
+            <div className="absolute inset-0 flex flex-col justify-end gap-px bg-ink/0 p-2 opacity-0 transition-all duration-500 group-hover:bg-ink/45 group-hover:opacity-100 focus-within:bg-ink/45 focus-within:opacity-100 [@media(hover:none)]:opacity-100">
               <a
                 href={post.href}
                 target="_blank"
                 rel="noreferrer noopener"
+                aria-label={post.isPost ? `View post: ${post.alt}` : `See more on @${site.handle}`}
                 className="bg-paper/95 px-2.5 py-2 text-center font-sans text-[0.625rem] uppercase tracking-[0.12em] text-ink transition-colors hover:bg-paper"
               >
-                View post
+                {post.isPost ? "View post" : "On Instagram"}
               </a>
               <Link
                 href={`/commission?ref=${encodeURIComponent(post.reference)}`}
