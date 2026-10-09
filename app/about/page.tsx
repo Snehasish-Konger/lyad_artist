@@ -5,7 +5,8 @@ import { PageHeader } from "@/components/page-header";
 import { Reveal } from "@/components/reveal";
 import { StructuredData } from "@/components/structured-data";
 import { about } from "@/content/about";
-import { artworkAlt, image, portraitSlug, artworkBySlug } from "@/content/artworks";
+import { RecentWorks } from "@/components/recent-works";
+import { image, portraitSlug } from "@/content/artworks";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
 import { personJsonLd } from "@/lib/structured-data";
@@ -16,8 +17,13 @@ export const metadata: Metadata = pageMetadata({
   path: "/about",
 });
 
-/** Two pieces shown mid-page as process examples. Any slug from artworks.ts. */
-const processPieces = ["manmohan-singh", "premanand-ji"];
+/** Pieces shown in the "lately" strip, in order. Any slug from artworks.ts. */
+const recentWork = ["premanand-ji", "messi", "ganesha", "kolkata-tram"] as const;
+
+/** The section id the strip sits under. */
+const recentWorkAfter = "faces";
+
+const bodyText = "text-[1.0625rem] leading-[1.85] text-ink-soft md:text-[1.125rem]";
 
 export default function AboutPage() {
   const portrait = image(portraitSlug);
@@ -46,7 +52,8 @@ export default function AboutPage() {
                 />
               </div>
 
-              <dl className="mt-10 divide-y divide-paper-edge border-y border-paper-edge">
+              <p className="kicker mt-10">A little about the studio</p>
+              <dl className="mt-5 divide-y divide-paper-edge border-y border-paper-edge">
                 {about.facts.map((f) => (
                   <div key={f.label} className="grid grid-cols-3 gap-4 py-4">
                     <dt className="col-span-1 font-sans text-[0.6875rem] uppercase tracking-[0.16em] text-ink-faint">
@@ -62,13 +69,13 @@ export default function AboutPage() {
           {/* Body */}
           <div className="md:col-span-6 md:col-start-7">
             <div className="space-y-8">
-              {about.body.map((para, i) => (
+              {about.intro.map((para, i) => (
                 <Reveal key={i} delay={i * 0.04}>
                   <p
                     className={
                       i === 0
                         ? "font-serif text-[1.5rem] leading-[1.55] text-ink md:text-[1.75rem]"
-                        : "text-[1.0625rem] leading-[1.85] text-ink-soft md:text-[1.125rem]"
+                        : bodyText
                     }
                   >
                     {para}
@@ -77,30 +84,43 @@ export default function AboutPage() {
               ))}
             </div>
 
-            {/* Process pieces, dropped into the reading column */}
-            <Reveal className="my-16 grid grid-cols-2 gap-5">
-              {processPieces.map((slug) => {
-                const img = image(slug);
-                const art = artworkBySlug(slug);
-                return (
-                  <figure key={slug}>
-                    <div className="relative aspect-[4/5] overflow-hidden bg-paper-deep">
-                      <Image
-                        src={img.src}
-                        alt={art ? artworkAlt(art) : ""}
-                        fill
-                        sizes="(max-width: 768px) 45vw, 24vw"
-                        placeholder="blur"
-                        blurDataURL={img.blurDataURL}
-                        className="object-cover"
-                      />
+            {about.sections.map((section) => (
+              <section key={section.id} className="mt-16 md:mt-20" aria-labelledby={section.id}>
+                <Reveal>
+                  <h2 id={section.id} className="font-serif text-heading leading-snug text-ink">
+                    {section.heading}
+                  </h2>
+                </Reveal>
+                <div className="mt-6 space-y-6">
+                  {section.body.map((para, i) => (
+                    <Reveal key={i} delay={i * 0.04}>
+                      <p className={bodyText}>{para}</p>
+                    </Reveal>
+                  ))}
+                </div>
+
+                {/* Recent work, right after the paragraph about range */}
+                {section.id === recentWorkAfter && (
+                  // Not wrapped in <Reveal>: its transform would trap the
+                  // lightbox's position: fixed inside this column.
+                  <div className="mt-14">
+                    <p className="kicker">On the drawing board lately</p>
+                    <div className="mt-6">
+                      <RecentWorks slugs={recentWork} />
                     </div>
-                    <figcaption className="mt-2.5 text-sm text-ink-faint">
-                      {art?.title} — {art?.medium}
-                    </figcaption>
-                  </figure>
-                );
-              })}
+                  </div>
+                )}
+              </section>
+            ))}
+
+            <Reveal className="my-16 border-l-2 border-clay pl-6 md:my-20 md:pl-8">
+              <blockquote className="font-serif text-[1.5rem] leading-[1.45] text-ink md:text-[1.875rem]">
+                {about.closing.quote}
+              </blockquote>
+            </Reveal>
+
+            <Reveal className="mb-16">
+              <p className={bodyText}>{about.closing.signoff}</p>
             </Reveal>
 
             <Reveal className="border-t border-paper-edge pt-10">

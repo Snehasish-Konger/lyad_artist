@@ -32,10 +32,12 @@ import { categoryById, type CategoryId } from "./categories";
  *               lightbox then shows "Order it" with a choice of WhatsApp or
  *               Instagram DM — see components/order-choice.tsx.
  *   commissionable  set false to hide the "available as a commission" line
- *   instagramUrl    the piece's own Instagram post (https://www.instagram.com/p/…).
- *               Shown as "View on Instagram" in the lightbox and used by the
- *               Instagram section's fallback grid. Leave it out and both
- *               link to the profile instead.
+ *   instagramPost   the piece's own Instagram post. Paste it however you
+ *               have it: the app's "Copy link" URL (tracking bits are
+ *               stripped), a reel link, or just the code after /p/. Used by
+ *               "View on Instagram" in the lightbox and "View post" in the
+ *               Instagram section. Leave it out and both link to the
+ *               profile instead. A malformed value fails the build.
  * ============================================================================
  */
 
@@ -49,7 +51,7 @@ export type Artwork = {
   featured?: boolean;
   shopUrl?: string;
   commissionable?: boolean;
-  instagramUrl?: string;
+  instagramPost?: string;
 };
 
 export const artworks: Artwork[] = [
@@ -63,7 +65,7 @@ export const artworks: Artwork[] = [
     caption:
       "Parashu raised, pasha in the other hand, one foot on the rock. The warrior Ganesha rather than the one seated on a lotus.",
     // TODO: paste this piece's post link — until then it links to the profile.
-    // instagramUrl: "https://www.instagram.com/p/XXXXXXXXXXX/",
+    // instagramPost: "https://www.instagram.com/p/XXXXXXXXXXX/",
     commissionable: true,
   },
   {
@@ -366,7 +368,7 @@ export const artworks: Artwork[] = [
     caption:
       "Car 248 on the Kolkata tram line. Drawn mostly for the overhead wire, the grilles and the dents in the paint.",
     // TODO: paste this piece's post link — until then it links to the profile.
-    // instagramUrl: "https://www.instagram.com/p/XXXXXXXXXXX/",
+    // instagramPost: "https://www.instagram.com/p/XXXXXXXXXXX/",
     commissionable: true,
   },
   {
