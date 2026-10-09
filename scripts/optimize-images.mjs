@@ -17,6 +17,7 @@
  * Nothing in app/ or components/ needs to change.
  */
 import sharp from "sharp";
+import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -78,8 +79,15 @@ async function main() {
       .webp({ quality: 40 })
       .toBuffer();
 
+    // Content hash in the URL, so a replaced image gets a new URL and no
+    // cache (browser, CDN, or next/image's optimizer) serves the old one.
+    const version = createHash("sha256")
+      .update(await fs.readFile(outPath))
+      .digest("hex")
+      .slice(0, 10);
+
     manifest[slug] = {
-      src: `/artwork/${slug}.webp`,
+      src: `/artwork/${slug}.webp?v=${version}`,
       width,
       height,
       blurDataURL: `data:image/webp;base64,${blur.toString("base64")}`,

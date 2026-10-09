@@ -39,10 +39,14 @@ export default function AboutPage() {
           {/* Portrait + facts rail */}
           <Reveal className="md:col-span-5 lg:col-span-4">
             <div className="md:sticky md:top-32">
-              <div className="relative aspect-[4/5] w-full overflow-hidden bg-paper-deep">
+              {/* Sized to the photo itself so the doodles at its edges aren't cropped. */}
+              <div
+                className="relative w-full overflow-hidden bg-paper-deep"
+                style={{ aspectRatio: `${portrait.width} / ${portrait.height}` }}
+              >
                 <Image
                   src={portrait.src}
-                  alt={`${site.name} in his studio`}
+                  alt={`${site.name} at the desk, with Goku and Luffy doodled around the photo`}
                   fill
                   sizes="(max-width: 768px) 92vw, 34vw"
                   placeholder="blur"
