@@ -39,22 +39,46 @@ export default function AboutPage() {
           {/* Portrait + facts rail */}
           <Reveal className="md:col-span-5 lg:col-span-4">
             <div className="md:sticky md:top-32">
-              {/* Sized to the photo itself so the doodles at its edges aren't cropped. */}
-              <div
-                className="relative w-full overflow-hidden bg-paper-deep"
-                style={{ aspectRatio: `${portrait.width} / ${portrait.height}` }}
-              >
-                <Image
-                  src={portrait.src}
-                  alt={`${site.name} at the desk, with Goku and Luffy doodled around the photo`}
-                  fill
-                  sizes="(max-width: 768px) 92vw, 34vw"
-                  placeholder="blur"
-                  blurDataURL={portrait.blurDataURL}
-                  className="object-cover"
-                  priority
+              {/* The photo as a print laid on the page: paper mat, a strip of
+                  tape, a slight tilt, and colour warmed toward the site's
+                  palette. Hovering straightens it and brings the colour back. */}
+              <figure className="group relative mx-auto max-w-[26rem] px-2 pt-4 md:px-0">
+                <span
+                  aria-hidden
+                  className="absolute left-1/2 top-1 z-10 h-6 w-24 -translate-x-1/2 rotate-[-3deg] bg-clay-soft/25 shadow-[0_1px_1px_rgb(34_30_25/0.06)] backdrop-blur-[1px]"
                 />
-              </div>
+                <div className="rotate-[-1.5deg] border border-paper-edge bg-paper-raised p-3 pb-4 shadow-[0_1px_2px_rgb(34_30_25/0.06),0_14px_32px_-12px_rgb(34_30_25/0.22)] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-0 motion-reduce:transition-none md:p-4 md:pb-5">
+                  {/* Sized to the photo itself so the doodles at its edges aren't cropped. */}
+                  <div
+                    className="relative w-full overflow-hidden bg-paper-deep"
+                    style={{ aspectRatio: `${portrait.width} / ${portrait.height}` }}
+                  >
+                    <Image
+                      src={portrait.src}
+                      alt={`${site.name} at the desk, with Goku and Luffy doodled around the photo`}
+                      fill
+                      sizes="(max-width: 768px) 92vw, 30vw"
+                      placeholder="blur"
+                      blurDataURL={portrait.blurDataURL}
+                      className="object-cover saturate-[0.82] sepia-[0.14] transition-[filter] duration-700 group-hover:saturate-100 group-hover:sepia-0 motion-reduce:transition-none"
+                      priority
+                    />
+                    {/* Paper tone over the photo, so it sits in the page's warmth */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 bg-paper-deep/10 mix-blend-multiply"
+                    />
+                  </div>
+                  <figcaption className="mt-3.5 flex items-baseline justify-between gap-4 px-0.5">
+                    <span className="font-serif text-[0.9375rem] italic leading-snug text-ink-soft">
+                      At the desk, mid-idea.
+                    </span>
+                    <span className="shrink-0 font-sans text-[0.625rem] uppercase tracking-[0.16em] text-ink-faint">
+                      Gurugram
+                    </span>
+                  </figcaption>
+                </div>
+              </figure>
 
               <p className="kicker mt-10">A little about the studio</p>
               <dl className="mt-5 divide-y divide-paper-edge border-y border-paper-edge">

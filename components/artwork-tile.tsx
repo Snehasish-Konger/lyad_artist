@@ -52,7 +52,7 @@ export function ArtworkTile({
         </div>
       </button>
 
-      <figcaption className="mt-3.5 flex items-baseline justify-between gap-4">
+      <figcaption className="mt-3.5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <span className="font-serif text-lg leading-snug text-ink">{artwork.title}</span>
         <span className="shrink-0 font-sans text-[0.6875rem] uppercase tracking-[0.16em] text-ink-faint">
           {categoryById[artwork.category].short}
