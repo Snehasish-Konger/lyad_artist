@@ -120,15 +120,6 @@ export const artworks: Artwork[] = [
     commissionable: true,
   },
   {
-    slug: "the-wind-rises",
-    title: "The Wind Rises",
-    category: "pop-culture",
-    year: "2025",
-    medium: "Digital — Procreate",
-    caption: "Jiro and Naoko at the window. A study in flat colour and restraint.",
-    commissionable: true,
-  },
-  {
     slug: "dhurandhar-studies",
     title: "Dhurandhar — Studies",
     category: "pop-culture",
@@ -345,16 +336,6 @@ export const artworks: Artwork[] = [
     year: "2025",
     medium: "Ink — Procreate",
     caption: "Barely there. I stopped before I could ruin it.",
-    commissionable: true,
-  },
-  {
-    slug: "cartoonify",
-    title: "Cartoonify",
-    category: "ink-portraits",
-    year: "2025",
-    medium: "Digital — Procreate",
-    caption:
-      "The flat, friendly version — good for profile pictures and for people who don't want to be looked at that closely.",
     commissionable: true,
   },
 
